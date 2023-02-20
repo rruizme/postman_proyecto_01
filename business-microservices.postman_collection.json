@@ -19,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"accountId\": \"1\"\r\n}",
+									"raw": "{\r\n    \"accountId\": \"2\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -65,7 +65,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8092/debit-cards/1",
+									"raw": "http://localhost:8092/debit-cards/5",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -73,7 +73,7 @@
 									"port": "8092",
 									"path": [
 										"debit-cards",
-										"1"
+										"5"
 									]
 								}
 							},
@@ -86,7 +86,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"pin\": \"3214\"\r\n    }",
+									"raw": "{\r\n    \"accountId\": 1,\r\n    \"pin\": \"9\"\r\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -140,7 +140,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"clientId\": \"2\",\r\n    \"amount\": 4000\r\n}",
+									"raw": "{\r\n    \"clientId\": \"3\",\r\n    \"amount\": 4100\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -284,28 +284,16 @@
 							"name": "create-client",
 							"request": {
 								"method": "POST",
-								"header": []
-							},
-							"response": []
-						},
-						{
-							"name": "list-all-clients",
-							"request": {
-								"method": "GET",
-								"header": []
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "client-type-entity",
-					"item": [
-						{
-							"name": "create-client-type",
-							"request": {
-								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientType\": {\r\n            \"clientTypeId\": 1,\r\n            \"name\": \"PN\"\r\n    },\r\n    \"documentIdentityType\": \"DNI\",\r\n    \"documentIdentity\": \"45078903\",\r\n    \"name\": \"Sandra\",\r\n    \"email\": \"srm@nttd.com\",\r\n    \"phone\": \"333333333\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "http://localhost:8090/clients",
 									"protocol": "http",
@@ -321,10 +309,73 @@
 							"response": []
 						},
 						{
+							"name": "list-all-clients",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8090/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "client-type-entity",
+					"item": [
+						{
+							"name": "create-client-type",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"PJ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8090/client-types",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"client-types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "list-all-client-types",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8090/client-types",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"client-types"
+									]
+								}
 							},
 							"response": []
 						}
@@ -343,6 +394,15 @@
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientId\": 3,\r\n    \"loan\": 2,\r\n    \"monthlyPaymentDead\": 4,\r\n    \"initialBalance\": 4000,\r\n    \"currentBalance\": 3000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "http://localhost:8091/credits",
 									"protocol": "http",
@@ -361,19 +421,6 @@
 							"name": "list-all-credits",
 							"request": {
 								"method": "GET",
-								"header": []
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "credit-card-entity",
-					"item": [
-						{
-							"name": "create-credit-card",
-							"request": {
-								"method": "POST",
 								"header": [],
 								"url": {
 									"raw": "http://localhost:8091/credits",
@@ -388,12 +435,56 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "credit-card-entity",
+					"item": [
+						{
+							"name": "create-credit-card",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"clientId\": 3,\r\n    \"monthlyCutoffDate\": \"3\",\r\n    \"monthlyPaymentDeadline\": \"7\",\r\n    \"currentBalance\": 5000,\r\n    \"creditLimit\": 5000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8091/credit-cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"credit-cards"
+									]
+								}
+							},
+							"response": []
 						},
 						{
 							"name": "list-all-credit-cards",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8091/credit-cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8091",
+									"path": [
+										"credit-cards"
+									]
+								}
 							},
 							"response": []
 						}
@@ -412,6 +503,15 @@
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accountId\": \"1\",\r\n    \"debitCardId\": \"1\",\r\n    \"creditCardId\": \"Sandra\",\r\n    \"creditId\": \"srm@nttd.com\",\r\n    \"operationType\": \"333333333\",\r\n    \"amount\": \"333333333\",\r\n    \"operationType\": \"333333333\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "http://localhost:8093/operations",
 									"protocol": "http",
@@ -430,7 +530,18 @@
 							"name": "list-all-operations",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8093/operations",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8093",
+									"path": [
+										"operations"
+									]
+								}
 							},
 							"response": []
 						}
